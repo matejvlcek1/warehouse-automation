@@ -1,0 +1,67 @@
+product_names = input_data.get("product_name", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(product_names, str):
+    product_names = product_names.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = len(product_names)
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+product_names += [""] * (max_length - len(product_names))
+
+# Definujeme kategorie (CZ) a odpovídající klíčová slova (EN)
+categories = {
+    "Batohy": ["Backpack"],
+    "Boxerky": ["Boxer", "Boxers"],
+    "Bundy": ["Jacket", "Parka", "Windrunner", "Coat", "Bomber"],
+    "Boty": ["Shoes", "Sneakers", "Boots", "Trainers", "Footwear", "Cleats", "Slides", "Moccasins", "Derby", "Loafers", "Oxfords", "Sandals"],
+    "Čepice": ["Beanie"],  # "Cap" bylo odstraněno
+    "Hodinky": ["Watch", "Smartwatch"],
+    "Kalhotky": ["Briefs", "Panties", "Thong", "Underwear"],
+    "Klobouky": ["Fedora", "Bucket Hat"],
+    "Košile": ["Shirt", "Button-up", "Button-down"],  # Shirt bude přiřazeno jen pokud neobsahuje "T-Shirt"
+    "Kšiltovky": ["Snapback", "Cap", "Trucker Cap", "Baseball Cap", "Hat"],  # "Cap" přesunuto sem
+    "Ledvinky": ["Waist Bag", "Fanny Pack", "Belt Bag"],
+    "Mikiny a svetry": ["Hoodie", "Sweater", "Pullover", "Crewneck", "Fleece"],
+    "Pásky": ["Belt", "Leather Belt", "Webbing Belt"],
+    "Peněženky": ["Wallet", "Cardholder", "Money Clip"],
+    "Podprsenky": ["Bra", "Sports Bra", "Bralette"],
+    "Ponožky": ["Socks", "Crew Socks", "Ankle Socks"],
+    "Rukavice": ["Gloves", "Mittens", "Touchscreen Gloves"],
+    "Sluneční brýle": ["Sunglasses", "Shades", "Eyewear"],
+    "Sukně": ["Skirt", "Midi Skirt", "Mini Skirt"],
+    "Šály": ["Scarf", "Neck Warmer"],
+    "Šaty": ["Dress", "Gown", "Maxi Dress"],
+    "Šortky": ["Shorts", "Boardshorts", "Chino Shorts"],
+    "Tašky přes rameno": ["Shoulder Bag", "Crossbody", "Tote Bag", "Crossbody Bag"],
+    "Tílka": ["Tank Top", "Sleeveless"],
+    "Trička": ["T-Shirt", "Graphic Tee", "Short Sleeve"],  # T-Shirt bude mít prioritu před Shirt
+    "Vesty": ["Vest", "Puffer Vest", "Down Vest"],
+    "Legíny": ["Leggings", "Tights", "Compression"],
+    "Plavky": ["Swimwear", "Swimsuit", "Bikini", "Trunks"],
+    "Dresy": ["Jersey", "Football Jersey", "Soccer Jersey"],
+    "Tepláky": ["Sweatpants", "Joggers"],
+    "Džíny a kalhoty": ["Pant", "Pants", "Jeans", "Chinos", "Trousers"]
+}
+
+category_values = []
+
+# Projdeme názvy produktů a přiřadíme jim kategorii
+for name in product_names:
+    name = name.strip().title() if name else ""  # Převedeme první písmeno každého slova na velké
+    assigned_category = "Ostatní doplňky"  # Výchozí kategorie, pokud produkt nesedí do žádné
+
+    # Nejprve kontrolujeme "T-Shirt" → pokud ho najdeme, přiřadíme "Trička"
+    if "T-Shirt" in name:
+        assigned_category = "Trička"
+    else:
+        # Prohledáváme ostatní klíčová slova
+        for category, keywords in categories.items():
+            if any(keyword.lower() in name.lower() for keyword in keywords):
+                assigned_category = category
+                break  # Pokud najdeme shodu, už dál nehledáme
+
+    category_values.append(assigned_category)
+
+return {"product_category": category_values}
