@@ -1,0 +1,45 @@
+color_names = input_data.get("general_colour_description", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(color_names, str):
+    color_names = color_names.split(",")
+
+# Určíme počet řádků podle délky seznamu
+row_count = len(color_names)
+
+# Definujeme mapování základních barev na jejich alternativní názvy
+color_mapping = {
+    "Bílá": ["White", "Blanc", "Off White", "Snow", "Cloud", "Chalk", "Summit White"],
+    "Černá": ["Black", "Noir", "Jet Black", "Obsidian", "Onyx", "Carbon", "Anthracite"],
+    "Různobarevný": ["Multicolor", "Multi", "Rainbow", "Various", "Assorted", "Colorful"],
+    "Červená": ["Red", "Rouge", "Crimson", "Scarlet", "Bordeaux", "Team Red", "University Red"],
+    "Modrá": ["Blue", "Navy", "Sky", "Sapphire", "Cobalt", "Azure", "Midnight Navy", "Royal Blue", "Game Royal"],
+    "Šedá": ["Grey", "Gray", "Charcoal", "Slate", "Graphite", "Heather", "Cool Grey", "Wolf Grey"],
+    "Hnědá": ["Brown", "Brun", "Chestnut", "Cocoa", "Walnut", "Baroque Brown", "Light Orewood Brown"],
+    "Zelená": ["Green", "Olive", "Forest", "Emerald", "Jade", "Army", "Cargo Khaki", "Pine Green"],
+    "Růžová": ["Pink", "Rose", "Blush", "Coral", "Magenta", "Hyper Pink"],
+    "Žlutá": ["Yellow", "Jaune", "Gold", "Mustard", "Sunflower", "University Gold"],
+    "Oranžová": ["Orange", "Tangerine", "Amber", "Apricot", "Total Orange"],
+    "Fialová": ["Purple", "Violet", "Lilac", "Plum", "Amethyst", "Court Purple"],
+    "Béžová": ["Beige", "Sand", "Taupe", "Nude", "Camel", "Khaki", "Cream", "Ivory", "Bone", "Sail"]
+}
+
+# Výstupní seznam přiřazených barev
+mapped_colors = []
+
+for color in color_names:
+    color = color.strip().title() if color else ""  # Ořízneme mezery a sjednotíme velikost písmen
+    
+    # Pokud je barva složená z více částí, vezmeme jen první před lomítkem
+    main_color = color.split("/")[0].strip()  
+
+    assigned_color = "Různobarevný"  # Výchozí hodnota, pokud barva nesedí
+
+    for base_color, keywords in color_mapping.items():
+        if any(keyword.lower() in main_color.lower() for keyword in keywords):
+            assigned_color = base_color
+            break  # Jakmile najdeme shodu, už dál nehledáme
+
+    mapped_colors.append(assigned_color)
+
+return {"mapped_color": mapped_colors}
