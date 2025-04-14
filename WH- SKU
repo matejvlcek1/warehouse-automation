@@ -1,0 +1,19 @@
+product_codes = input_data.get("product_code", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(product_codes, str):
+    product_codes = product_codes.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = len(product_codes)
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+product_codes += [""] * (max_length - len(product_codes))
+
+code_rows = []
+
+for code in product_codes:
+    code = code.strip() if code else "N/A"  # Pokud je hodnota prázdná, doplníme "N/A"
+    code_rows.append(code)
+
+return {"code": code_rows}
