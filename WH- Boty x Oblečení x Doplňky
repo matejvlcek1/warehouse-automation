@@ -1,0 +1,63 @@
+gender_ages = input_data.get("gender_age", [])
+product_types = input_data.get("product_type", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(gender_ages, str):
+    gender_ages = gender_ages.split(",")
+if isinstance(product_types, str):
+    product_types = product_types.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = max(len(gender_ages), len(product_types))
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+gender_ages += [""] * (max_length - len(gender_ages))
+product_types += [""] * (max_length - len(product_types))
+
+association_1_values = []
+association_2_values = []
+
+for gender, product in zip(gender_ages, product_types):
+    gender = gender.strip().upper() if gender else ""  # Převedeme na velká písmena pro konzistenci
+    product = product.strip().upper() if product else ""
+
+    if product == "FOOTWEAR":
+        if gender == "MENS":
+            association_1_values.append("Pánské tenisky a boty")
+            association_2_values.append("")
+        elif gender == "WOMENS":
+            association_1_values.append("")
+            association_2_values.append("Dámské tenisky a boty")
+        elif gender == "UNISEX":
+            association_1_values.append("Pánské tenisky a boty")
+            association_2_values.append("Dámské tenisky a boty")
+        else:
+            association_1_values.append("")
+            association_2_values.append("")
+    elif product == "APPAREL":
+        if gender == "MENS":
+            association_1_values.append("Pánské oblečení")
+            association_2_values.append("")
+        elif gender == "WOMENS":
+            association_1_values.append("")
+            association_2_values.append("Dámské oblečení")
+        elif gender == "UNISEX":
+            association_1_values.append("Pánské oblečení")
+            association_2_values.append("Dámské oblečení")
+        elif gender == "ADULT UNISEX":  # Nové pravidlo → ADULT UNISEX + APPAREL → Doplňky
+            association_1_values.append("Doplňky")
+            association_2_values.append("")
+        else:
+            association_1_values.append("")
+            association_2_values.append("")
+    elif product == "EQUIPMENT":
+        association_1_values.append("Doplňky")
+        association_2_values.append("")
+    else:
+        association_1_values.append("")
+        association_2_values.append("")
+
+return {
+    "association_1": association_1_values,
+    "association_2": association_2_values
+}
