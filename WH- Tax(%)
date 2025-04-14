@@ -1,0 +1,10 @@
+# Určíme počet řádků podle jiného sloupce, například "EAN" (pokud je dostupný)
+row_count = len(input_data.get("ean", []))  # Použij existující seznam pro určení délky
+
+
+# Naplníme sloupec hodnotou "21" pro všechny řádky
+tax_values = ["21"] * row_count
+
+return {
+    "tax": tax_values
+}
