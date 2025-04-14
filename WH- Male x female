@@ -1,0 +1,29 @@
+gender_ages = input_data.get("gender_age", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(gender_ages, str):
+    gender_ages = gender_ages.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = len(gender_ages)
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+gender_ages += [""] * (max_length - len(gender_ages))
+
+male_values = []
+female_values = []
+
+for gender in gender_ages:
+    gender = gender.strip().upper() if gender else ""  # Převedeme na velká písmena pro konzistenci
+    if gender == "MENS":
+        male_values.append("1")
+        female_values.append("")
+    elif gender == "WOMENS":
+        male_values.append("")
+        female_values.append("1")
+    elif gender == "ADULT UNISEX":
+        male_values.append("1")
+        female_values.append("1")
+    else:
+        male_values.append("")
+        female_values.append("")
