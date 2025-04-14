@@ -1,0 +1,15 @@
+# Načteme hodnoty ze sloupce "Recommended Retail Price"
+rrp_values = input_data.get("recommended_retail_price", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(rrp_values, str):
+    rrp_values = rrp_values.split(",")
+
+# Určíme počet řádků podle délky seznamu
+row_count = len(rrp_values)
+
+# Pokud je seznam prázdný, vrátíme prázdné hodnoty
+if row_count == 0:
+    rrp_values = [""] * 2000  # Výchozí hodnota pro 2000 řádků, pokud nejsou data
+
+return {"rrp": rrp_values}
