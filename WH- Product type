@@ -1,0 +1,47 @@
+# Načteme hlavní kategorie z předchozího kroku
+main_categories = input_data.get("product_category", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(main_categories, str):
+    main_categories = main_categories.split(",")
+
+# Určíme počet řádků podle délky seznamu kategorií
+row_count = len(main_categories)
+
+# Definujeme mapování hlavních kategorií na nové hodnoty
+category_mapping = {
+    "top": ["trička", "bundy", "košile", "mikiny a svetry", "tílka", "vesty", "dresy"],
+    "bottom": ["šortky", "tepláky", "džíny a kalhoty", "džíny", "kalhoty"],  # Přidali jsme více variant!
+    "bag_and_backpack": ["batohy", "ledvinky", "tašky přes rameno"],
+    "belt": ["pásky"],
+    "bra": ["podprsenky"],
+    "cap": ["čepice", "kšiltovky", "klobouky"],
+    "dress": ["šaty"],
+    "footwear": ["boty"],
+    "glove": ["rukavice"],
+    "other": ["šály"],
+    "panties": ["kalhotky"],
+    "sock": ["ponožky"],
+    "sunglasses": ["sluneční brýle"],
+    "swim": ["plavky"],
+    "trunk": ["boxerky"],
+    "wallet": ["peněženky"],
+    "watch": ["hodinky"]
+}
+
+# Naplníme nový sloupec "Type" na základě kategorie
+type_values = []
+
+for category in main_categories:
+    category = category.strip().lower() if category else ""  # Normalizujeme text
+    
+    # Najdeme odpovídající skupinu
+    assigned_type = "other"  # Výchozí hodnota, pokud produkt nesedí do žádné skupiny
+    for type_name, assigned_categories in category_mapping.items():
+        if category in assigned_categories:
+            assigned_type = type_name
+            break  # Jakmile najdeme shodu, dál nehledáme
+
+    type_values.append(assigned_type)
+
+return {"type": type_values}
