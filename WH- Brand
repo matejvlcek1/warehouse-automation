@@ -1,0 +1,23 @@
+style_names = input_data.get("style_name", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(style_names, str):
+    style_names = style_names.split(",")
+
+# Určíme počet řádků podle délky style_names
+row_count = len(style_names)
+
+# Naplníme nový sloupec Brand podle podmínek
+brand_values = []
+
+for style in style_names:
+    style = style.strip().title() if style else ""  # Ořízneme mezery a sjednotíme velikost písmen
+    
+    if style.startswith("Jordan"):
+        brand_values.append("Jordan")
+    elif style.startswith("Nike"):
+        brand_values.append("Nike")
+    else:
+        brand_values.append("Nike")  # Výchozí hodnota, pokud není uvedená značka
+
+return {"brand": brand_values}
