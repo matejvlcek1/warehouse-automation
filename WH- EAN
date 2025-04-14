@@ -1,0 +1,19 @@
+upc_codes = input_data.get("upc", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(upc_codes, str):
+    upc_codes = upc_codes.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = len(upc_codes)
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+upc_codes += [""] * (max_length - len(upc_codes))
+
+ean_rows = []
+
+for upc in upc_codes:
+    upc = upc.strip() if upc else "N/A"  # Pokud je hodnota prázdná, vložíme "N/A"
+    ean_rows.append(upc)
+
+return {"ean": ean_rows}
