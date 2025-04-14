@@ -1,0 +1,13 @@
+# Určíme počet řádků podle jiného sloupce, například "EAN" (pokud je dostupný)
+row_count = len(input_data.get("ean", []))  # Použij existující seznam pro určení délky
+
+
+
+# Naplníme oba sloupce nulami pro všechny řádky
+wholesale_price = ["0"] * row_count
+selling_price_eur = ["0"] * row_count
+
+return {
+    "wholesale_price": wholesale_price,
+    "selling_price_eur": selling_price_eur
+}
