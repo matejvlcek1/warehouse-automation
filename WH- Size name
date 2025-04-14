@@ -1,0 +1,31 @@
+import re
+
+size_names = input_data.get("size_name", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(size_names, str):
+    size_names = size_names.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = len(size_names)
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+size_names += [""] * (max_length - len(size_names))
+
+# Mapování velikostí na standardizovaný formát
+size_conversion = {
+    "2XS": "XXS",
+    "3XS": "XXXS",
+    "4XS": "XXXXS",
+    "5XS": "XXXXXS",
+    "2XL": "XXL",
+    "3XL": "XXXL",
+    "4XL": "XXXXL",
+    "5XL": "XXXXXL",
+    "MISC": "Univerzální"  # Převod MISC na Univerzální
+}
+
+size_name_rows = []
+
+for size in size_names:
+    size = size.strip().upper() if size else "N/A"  # Pokud je hodnota 
