@@ -1,0 +1,23 @@
+primary_colours = input_data.get("primary_colours", [])
+
+# Ujistíme se, že vstupní data jsou seznamy, jinak je převedeme
+if isinstance(primary_colours, str):
+    primary_colours = primary_colours.split(",")
+
+# Určení maximální délky, aby odpovídala ostatním sloupcům
+max_length = len(primary_colours)
+
+# Doplníme chybějící hodnoty prázdným textem, aby se seznam zarovnal
+primary_colours += [""] * (max_length - len(primary_colours))
+
+color_name_rows = []
+
+for c in primary_colours:
+    c = c.strip() if c else "N/A"
+
+    # Formátování: Každé slovo začíná velkým písmenem a lomítko má mezeru jen za sebou
+    c_formatted = "/ ".join([word.strip().title() for word in c.split("/")])
+
+    color_name_rows.append(c_formatted)
+
+return {"color_name": color_name_rows}
